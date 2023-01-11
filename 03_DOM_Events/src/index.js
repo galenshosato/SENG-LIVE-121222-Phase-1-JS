@@ -48,6 +48,10 @@ function renderBook(book) {
 
   const btn = document.createElement('button');
   btn.textContent = 'Delete';
+  btn.addEventListener('click', (event) => {
+    li.remove()
+    
+  })
 
   li.append(h3, pAuthor, pPrice, img, btn);
 
@@ -84,3 +88,31 @@ newBookBtn.addEventListener('click',(event) => {
 
 })
 
+const bookForm = document.querySelector('#book-form')
+bookForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const title = document.querySelector('#form-title')
+  console.log(title.value)
+  const author = document.querySelector('#form-author')
+  console.log(author.value)
+  const price = document.querySelector('#form-price')
+  console.log(price.value)
+  const img = document.querySelector('#form-imageUrl')
+  console.log(img.value)
+  const inventory = document.querySelector('#form-inventory')
+  console.log(inventory.value)
+
+
+const newBook = {
+      //id:1,
+      title: title.value,
+      author: author.value,
+      price: parseInt(price.value),
+      //reviews: [{userID: 1, content:'Good book, but not great for new coders'}],
+      inventory: inventory.value,
+      imageUrl: img.value
+}
+
+renderBook(newBook)
+bookForm.reset()
+})
