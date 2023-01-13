@@ -169,14 +169,50 @@ bookForm.addEventListener('submit', (e) => {
     imageUrl: e.target.imageUrl.value
   }
   // pass the info as an argument to renderBook for display!
-  renderBook(book);
+  //renderBook(book);
   // 1. Add the ability to perist the book to the database when the form is submitted. When this works, we should still see the book that is added to the DOM on submission when we refresh the page.
+  fetch('http://localhost:3000/books', {
+    method : 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(book)
+  })
+    .then(resp => resp.json())
+    .then(newBook => renderBook(newBook))
 
   e.target.reset();
 })
 
 // 2. Hook up the new Store form so it that it works to add a new store to our database and also to the DOM (as an option within the select tag)
+storeForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const newStore = {
+      "location": e.target.location.value,
+      "address": e.target.address.value,
+      "number": Number.parseInt(e.target.number.value),
+      "name": e.target.name.value,
+      "hours": e.target.hours.value
+   }
+   fetch('http://localhost:3000/stores', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newStore)
+   }) .then(resp => resp.json())
+      .then(newStore => {
+      //   const storeDropDown = document.querySelector('#store-selector')
+      //   storeDropDown.innerHTML = ""
+      //   fetch('https://localhost:3000/stores')
+      //     .then(resp => resp.json())
+      //     .then (stores => renderStoreSelectionOptions(stores))
 
+      // })
+
+      addSelectOptionForStore(newStore)
+      })
+})
 
 // Invoking functions    
 // fetching our data!
